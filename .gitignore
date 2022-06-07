@@ -2,3 +2,5 @@
 *.pyc
 venv
 commandes.md
+flake-report
+.vscode
