@@ -34,6 +34,12 @@ workflows:
             branches:
               only:
                 - master
+      - docker/publish:
+          name: containerize
+          image: $DOCKER_LOGIN/$PROJECT_REPONAME  # guillaumep29/oc_lettings_site
+          tag: $CIRCLE_SHA1
+          requires: 
+            - build-and-test
   dev:
     jobs:
       - build-and-test:
