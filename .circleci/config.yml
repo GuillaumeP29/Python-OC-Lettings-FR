@@ -1,0 +1,43 @@
+version: 2.1
+
+orbs:
+  python: circleci/python@2.0.3
+
+jobs:
+  build-and-test:
+    executor: python/default
+    docker:
+      - image: cimg/python:3.9.7
+    steps:
+      - checkout
+      - python/install-packages:
+          pip-dependency-file: requirements.txt
+          pkg-manager: pip
+      - setup_remote_docker:
+          docker_layer_caching: true  
+      - python/install-packages:
+          pkg-manager: pip
+      - run:
+          name: Run tests
+          command: pytest
+          env:
+            DJANGO_SECRET_KEY: $DJANGO_SECRET_KEY
+      - run:
+          name: Flake8 report
+          command: flake8 --config='./setup.cfg'
+
+workflows:
+  master:
+    jobs:
+      - build-and-test:
+          filters:
+            branches:
+              only:
+                - master
+  dev:
+    jobs:
+      - build-and-test:
+          filters:
+            branches:
+              ignore:
+                - master
