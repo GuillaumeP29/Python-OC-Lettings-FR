@@ -8,7 +8,7 @@ load_dotenv()  # Load constants from .env file to environment
 
 
 sentry_sdk.init(
-    dsn="https://b87a75f1f9314eab92b37f706a602cde@o1282164.ingest.sentry.io/6489291",
+    dsn=os.environ.get('SENTRY_DSN'),
     integrations=[DjangoIntegration()],
 
     # Set traces_sample_rate to 1.0 to capture 100%

@@ -59,9 +59,9 @@ jobs:
           command: HEROKU_API_KEY=${HEROKU_TOKEN} heroku
             config:set ENV="PRODUCTION" -a $HEROKU_APP_NAME
 
-      # - run:
-      #     command: HEROKU_API_KEY=${HEROKU_TOKEN}
-      #       heroku config:set SENTRY_DSN=$SENTRY_DSN -a $HEROKU_APP_NAME
+      - run:
+          command: HEROKU_API_KEY=${HEROKU_TOKEN}
+            heroku config:set SENTRY_DSN=$SENTRY_DSN -a $HEROKU_APP_NAME
 
       - run:
           command: HEROKU_API_KEY=${HEROKU_TOKEN} heroku
