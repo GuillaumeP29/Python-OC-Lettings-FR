@@ -45,22 +45,23 @@ jobs:
 
       - run:
           command: HEROKU_API_KEY=${HEROKU_TOKEN} heroku
-            create oc-lettings-site-gp || true
+            create $HEROKU_APP_NAME || true
 
       - run:
           command: HEROKU_API_KEY=${HEROKU_TOKEN} heroku
-            container:push -a oc-lettings-site-gp web
+            container:push -a $HEROKU_APP_NAME web
 
-      - run:
-          command: HEROKU_API_KEY=${HEROKU_TOKEN} heroku
-            config:set SECRET_KEY=$SECRET_KEY -a oc-lettings-site-gp
+      # - run:
+      #     command: HEROKU_API_KEY=${HEROKU_TOKEN} heroku
+      #       config:set SECRET_KEY=$SECRET_KEY -a $HEROKU_APP_NAME
 
       # - run:
       #     command: HEROKU_API_KEY=${HEROKU_TOKEN}
-      #       heroku config:set SENTRY_DSN=$SENTRY_DSN -a oc-lettings-site-gp
+      #       heroku config:set SENTRY_DSN=$SENTRY_DSN -a $HEROKU_APP_NAME
 
       - run:
-          command: HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:release -a oc-lettings-site-gp web
+          command: HEROKU_API_KEY=${HEROKU_TOKEN} heroku
+            container:release -a $HEROKU_APP_NAME web
 
 workflows:
   master:
