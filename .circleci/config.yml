@@ -3,6 +3,7 @@ version: 2.1
 orbs:
   python: circleci/python@2.0.3
   docker: circleci/docker@2.1.1
+  heroku: circleci/heroku@1.2.6
 
 jobs:
   build-and-test:
@@ -26,6 +27,40 @@ jobs:
       - run:
           name: Flake8 report
           command: flake8 --config='./setup.cfg'
+  deploy-to-heroku:
+    environment:
+      IMAGE_NAME: oc_p13:$CIRCLE_SHA1 .
+    docker:
+      - image: cimg/python:3.10.4
+    steps:
+      - setup_remote_docker
+      - checkout
+      - heroku/install
+
+      - run:
+          command: sudo curl https://cli-assets.heroku.com/install.sh | sh
+
+      - run:
+          command: HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:login
+
+      - run:
+          command: HEROKU_API_KEY=${HEROKU_TOKEN} heroku
+            create oc-lettings-site-gp || true
+
+      - run:
+          command: HEROKU_API_KEY=${HEROKU_TOKEN} heroku
+            container:push -a oc-lettings-site-gp web
+
+      - run:
+          command: HEROKU_API_KEY=${HEROKU_TOKEN} heroku
+            config:set SECRET_KEY=$SECRET_KEY -a oc-lettings-site-gp
+
+      # - run:
+      #     command: HEROKU_API_KEY=${HEROKU_TOKEN}
+      #       heroku config:set SENTRY_DSN=$SENTRY_DSN -a oc-lettings-site-gp
+
+      - run:
+          command: HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:release -a oc-lettings-site-gp web
 
 workflows:
   master:
@@ -41,6 +76,9 @@ workflows:
           tag: $CIRCLE_SHA1
           requires: 
             - build-and-test
+      - deploy-to-heroku:
+          requires:
+            - containerize
   dev:
     jobs:
       - build-and-test:

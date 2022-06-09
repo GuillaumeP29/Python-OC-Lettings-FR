@@ -75,6 +75,15 @@ DATABASES = {
 }
 
 
+# Database initialization : utilise la BDD sqlite si aucune autre (postgres) n'a été enregistrée
+# dans les variables d'environnement
+# if os.environ.get('DATABASE_URL') is None:
+#     basedir = os.path.abspath(os.path.dirname(__file__))
+#     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'app.db')
+# else:
+#     SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
+
+
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
