@@ -14,9 +14,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', default='default_local_secret_key')  # in .env
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+if os.environ.get('ENV') == 'PRODUCTION':
+    DEBUG = False
+else:
+    DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'oc-lettings-site-gp.heroku.com']
+
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'oc-lettings-site-gp.herokuapp.com']
 
 
 # Application definition
