@@ -51,9 +51,9 @@ jobs:
           command: HEROKU_API_KEY=${HEROKU_TOKEN} heroku
             container:push -a $HEROKU_APP_NAME web
 
-      # - run:
-      #     command: HEROKU_API_KEY=${HEROKU_TOKEN} heroku
-      #       config:set SECRET_KEY=$SECRET_KEY -a $HEROKU_APP_NAME
+      - run:
+          command: HEROKU_API_KEY=${HEROKU_TOKEN} heroku
+            config:set DJANGO_SECRET_KEY=$DJANGO_SECRET_KEY -a $HEROKU_APP_NAME
 
       # - run:
       #     command: HEROKU_API_KEY=${HEROKU_TOKEN}
