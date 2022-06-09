@@ -61,11 +61,7 @@ jobs:
 
       - run:
           command: HEROKU_API_KEY=${HEROKU_TOKEN} heroku
-<<<<<<< HEAD
             container:release -a $HEROKU_APP_NAME web
-=======
-          container:release -a $HEROKU_APP_NAME web
->>>>>>> dev
 
 workflows:
   master:
