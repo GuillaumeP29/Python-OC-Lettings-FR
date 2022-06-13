@@ -4,3 +4,4 @@ venv
 commandes.md
 flake-report
 .vscode
+.env
